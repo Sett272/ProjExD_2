@@ -29,13 +29,12 @@ def check_bound(rct: pg.Rect) -> tuple[bool, bool]:
 
 def init_bb_imgs() -> tuple[list[pg.Surface], list[int]]:
     bb_imgs = []
-    # レベル1〜11までにするため、range(1, 12)に変更
-    for r in range(1, 12):
+    for r in range(1, 11):
         bb_img = pg.Surface((20*r, 20*r))
         pg.draw.circle(bb_img, (255, 0, 0), (10*r, 10*r), 10*r)
         bb_img.set_colorkey((0, 0, 0))
         bb_imgs.append(bb_img)
-    bb_accs = [a for a in range(1, 12)]
+    bb_accs = [a for a in range(1, 11)]
     return bb_imgs, bb_accs
 
 def get_kk_imgs() -> dict[tuple[int, int], pg.Surface]:
@@ -118,11 +117,8 @@ def main():
             if event.type == pg.QUIT: 
                 return
                 
-        # レベルは最大11段階 (インデックス 0〜10)
-        idx = min(tmr // 500, 10)
+        idx = min(tmr // 500, 9)
         level = idx + 1
-        
-        # スコアは毎フレーム2点加算 (1秒50フレーム。5秒=250フレームでぴったり500点)
         score += 2
                 
         if kk_rct.colliderect(bb_rct):
