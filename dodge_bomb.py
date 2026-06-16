@@ -62,6 +62,21 @@ def gameover(screen:pg.Surface) -> None:
     pg.display.update()
     pg.time.wait(5000)
 
+def get_kk_imgs() -> dict[tuple[int, int], pg.Surface]:
+    img0 = pg.transform.rotozoom(pg.image.load("fig/3.png"), 0, 0.9) 
+    img1 = pg.transform.flip(img0, True, False) 
+
+    return {
+        (0, 0): img1, # キー押下がない場合は右向き
+        (10, 0): img1, # 右
+        (10, -10): pg.transform.rotozoom(img1, -45, 1.0), # 右上
+        (0, -10): pg.transform.rotozoom(img1, -90, 1.0), # 上
+        (-10, -10): pg.transform.rotozoom(img0, 45, 1.0), # 左上
+        (-10, 0): img0, # 左
+        (-10, 10): pg.transform.rotozoom(img0, -45, 1.0), # 左下
+        (0, 10): pg.transform.rotozoom(img1, 90, 1.0), # 下
+        (10, 10): pg.transform.rotozoom(img1, 45, 1.0), # 右下
+}
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -103,6 +118,7 @@ def main():
         if check_bound(kk_rct) != (True, True):
             #動きをキャンセルします
             kk_rct.move_ip(-sum_mv[0], -sum_mv[1]) 
+        kk_img = get_kk_imgs().get(tuple(sum_mv), get_kk_imgs()[(0, 0)])
         screen.blit(kk_img, kk_rct)
 
         # while文の中でtmrの値に応じて、リストから適切な要素を選択する
