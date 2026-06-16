@@ -37,17 +37,19 @@ def main():
 
     #爆弾の初期化
 
-    bb_img = pg.Surface((20, 20)) #爆弾用の空のsurface
-    pg.draw.circle(bb_img, (255, 0, 0), (10, 10), 10)
+    bb_radius = 10
+    bb_img = pg.Surface((bb_radius * 2, bb_radius * 2)) #爆弾用の空のsurface
+    pg.draw.circle(bb_img, (255, 0, 0), (bb_radius, bb_radius), bb_radius)
     bb_img.set_colorkey((0, 0, 0)) 
     bb_rct = bb_img.get_rect()
     bb_rct.centerx = random.randint(0, WIDTH) #横
     bb_rct.centery = random.randint(0, HEIGHT) #縦
-
-    vx, vy = 5, 5
+    vx = random.choice([-5, 5])
+    vy = random.choice([-5, 5])
+    tmr = 0     
 
     clock = pg.time.Clock()
-    tmr = 0
+    
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: 
@@ -86,7 +88,17 @@ def main():
             vy *= -1
         screen.blit(bb_img, bb_rct)
         pg.display.update()
-        tmr += 1
+        tmr += 2
+        if tmr % 300 == 0:
+            bb_radius += 2
+            vx += 1 if vx > 0 else -1
+            vy += 1 if vy > 0 else -1
+            center = bb_rct.center
+            bb_img = pg.Surface((bb_radius * 2, bb_radius * 2))
+            pg.draw.circle(bb_img, (255, 0, 0), (bb_radius, bb_radius), bb_radius)
+            bb_img.set_colorkey((0, 0, 0))
+            bb_rct = bb_img.get_rect()
+            bb_rct.center = center
         clock.tick(50)
 
 
