@@ -1,8 +1,9 @@
 import os
+import pygame as pg
 import random
 import sys
 import time
-import pygame as pg
+
 
 WIDTH, HEIGHT = 1100, 650
 
@@ -100,8 +101,8 @@ def main():
     bb_imgs, bb_accs = init_bb_imgs()
     bb_img = bb_imgs[0]
     bb_rct = bb_img.get_rect()
-    bb_rct.centerx = random.randint(0, WIDTH)
-    bb_rct.centery = random.randint(0, HEIGHT)
+    bb_rct.centerx = random.randint(0, WIDTH-10)
+    bb_rct.centery = random.randint(0, HEIGHT-10)
     vx = random.choice([-5, 5])
     vy = random.choice([-5, 5])
     tmr = 0     
